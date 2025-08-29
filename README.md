@@ -9,8 +9,6 @@ This project demonstrates comprehensive data analytics solutions using SQL Serve
 
 The project follows a structured data processing workflow:
 
-![Data Architecture](docs/data_architecture.png)
-
 1. **Raw Data**: Imported from CSV files into SQL Server for initial storage.
 2. **Transformed Data**: Data is cleaned, standardized, and prepared for analysis.
 3. **Analytics Layer**: Data is modeled into fact and dimension tables optimized for reporting.
