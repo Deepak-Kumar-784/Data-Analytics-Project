@@ -115,7 +115,7 @@ Data-analytics-project/
 - **Advanced Data Analytics.docx**: Comprehensive documentation containing detailed analysis, insights, and findings from the data analytics project.
 - **DataWarehouseAnalytics.docx**: Architecture and schema documentation describing the data warehouse design, ETL processes, and data model.
 
-*Note: These Word documents are excluded from version control (see `.gitignore`) to keep the repository lightweight. Store backups separately.*
+_Note: These Word documents are excluded from version control (see `.gitignore`) to keep the repository lightweight. Store backups separately._
 
 ---
 
@@ -143,17 +143,20 @@ The `.gitignore` file is configured to exclude the following file types from ver
 ### Setup Instructions
 
 1. **Clone the repository**:
+
    ```powershell
    git clone https://github.com/Deepak-Kumar-784/Data-Analytics-project.git
    cd Data-Analytics-project
    ```
 
 2. **Create the database**:
+
    - Open SQL Server Management Studio (SSMS)
    - Connect to your SQL Server instance
    - Execute the script: `scripts/00_init_database.sql`
 
 3. **Load data**:
+
    - Import CSV files from `datasets/csv-files/` into their respective tables using SSMS data import tools
 
 4. **Run analysis queries**:
@@ -165,6 +168,7 @@ The `.gitignore` file is configured to exclude the following file types from ver
 ## 📚 SQL Script Organization
 
 ### Exploratory Data Analysis (EDA)
+
 - **01_database_exploration.sql**: Overview of database structure, tables, and relationships
 - **02_dimensions_exploration.sql**: Analysis of dimension tables (customers, products, locations)
 - **03_date_range_exploration.sql**: Date range, temporal distribution, and time period analysis
@@ -172,6 +176,7 @@ The `.gitignore` file is configured to exclude the following file types from ver
 - **05_magnitude_analysis.sql**: Distribution analysis, magnitude scaling, and statistical measures
 
 ### Advanced Analytics
+
 - **06_ranking_analysis.sql**: Top products, best customers, ranking and leaderboard queries
 - **07_change_over_time_analysis.sql**: Trend analysis, year-over-year (YoY) comparisons, and growth rates
 - **08_cumulative_analysis.sql**: Cumulative sum, running totals, and growth accumulation
