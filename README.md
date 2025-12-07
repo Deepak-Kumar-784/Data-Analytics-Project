@@ -203,3 +203,244 @@ Contributions are welcome! If you'd like to contribute to this project:
 ## 🛡️ License
 
 This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and share this project with proper attribution.
+
+---
+
+## 🔧 Technologies & Skills Demonstrated
+
+| Technology            | Purpose                        | Skills                                   |
+| --------------------- | ------------------------------ | ---------------------------------------- |
+| **SQL Server**        | Data storage and querying      | Database management, T-SQL               |
+| **T-SQL**             | Data transformation & analysis | Window functions, CTEs, advanced queries |
+| **ETL**               | Data pipeline processing       | Data cleaning, normalization, staging    |
+| **Data Modeling**     | Fact & dimension tables        | Star schema, dimensional modeling        |
+| **Power Query/Excel** | Data import & validation       | Data quality checks, transformation      |
+| **Git**               | Version control                | Collaboration, code management           |
+
+---
+
+## 📊 Data Model Overview
+
+### Core Entities
+
+**Dimension Tables:**
+
+- **dim_customers**: Customer information (ID, name, location, demographics)
+- **dim_products**: Product catalog (ID, name, category, pricing)
+- **dim_locations**: Geographic information (location ID, address, region)
+
+**Fact Tables:**
+
+- **fact_sales**: Sales transactions (customer ID, product ID, date, quantity, amount)
+
+### Data Flow
+
+```
+Raw Data (Bronze Layer)
+    ↓
+Data Cleaning & Transformation (Silver Layer)
+    ↓
+Curated Analytics Data (Gold Layer)
+    ↓
+Dimensional & Fact Tables
+    ↓
+Analytics & Reports
+```
+
+---
+
+## 💡 Key Insights & Use Cases
+
+This project enables analysis of:
+
+1. **Customer Analytics**
+
+   - Customer segmentation (RFM analysis)
+   - Purchase patterns and behavior
+   - Customer lifetime value
+   - Geographic distribution
+
+2. **Product Performance**
+
+   - Best/worst performing products
+   - Category-wise sales analysis
+   - Product trends over time
+   - Price sensitivity analysis
+
+3. **Sales Trends**
+
+   - Monthly/quarterly/yearly comparisons
+   - Seasonal patterns
+   - Growth rates and forecasts
+   - Top selling products by region
+
+4. **Business Metrics**
+   - Total revenue and margins
+   - Average order value (AOV)
+   - Customer acquisition cost (CAC)
+   - Return on investment (ROI)
+
+---
+
+## 📈 Sample Analysis Examples
+
+### Example 1: Top 10 Customers by Revenue
+
+```sql
+SELECT TOP 10 CustomerID, CustomerName, SUM(SalesAmount) as TotalRevenue
+FROM fact_sales fs
+JOIN dim_customers dc ON fs.CustomerID = dc.CustomerID
+GROUP BY fs.CustomerID, dc.CustomerName
+ORDER BY TotalRevenue DESC;
+```
+
+### Example 2: Monthly Sales Trend
+
+```sql
+SELECT DATETRUNC(MONTH, SalesDate) as Month, SUM(SalesAmount) as MonthlySales
+FROM fact_sales
+GROUP BY DATETRUNC(MONTH, SalesDate)
+ORDER BY Month;
+```
+
+### Example 3: Product Performance by Category
+
+```sql
+SELECT Category, Product, SUM(Quantity) as TotalQty, SUM(SalesAmount) as Revenue
+FROM fact_sales fs
+JOIN dim_products dp ON fs.ProductID = dp.ProductID
+GROUP BY Category, Product
+ORDER BY Category, Revenue DESC;
+```
+
+---
+
+## 📋 Dataset Information
+
+### Datasets Included
+
+| Layer      | Files       | Purpose                       | Record Count     |
+| ---------- | ----------- | ----------------------------- | ---------------- |
+| **Bronze** | 6 CSV files | Raw data from ERP/CRM systems | ~10,000+ records |
+| **Silver** | 6 CSV files | Cleaned and standardized data | ~10,000+ records |
+| **Gold**   | 5 CSV files | Curated dimensions and facts  | ~5,000+ records  |
+
+### Data Quality Considerations
+
+- **Completeness**: All required fields populated
+- **Accuracy**: Data validated against source systems
+- **Consistency**: Standardized formats and naming conventions
+- **Uniqueness**: Primary keys ensure no duplicates
+- **Timeliness**: Data current as of the processing date
+
+---
+
+## ⚙️ Performance Tips & Best Practices
+
+### SQL Optimization
+
+1. **Use Indexes**: Create indexes on frequently queried columns (foreign keys, dates)
+
+   ```sql
+   CREATE INDEX idx_sales_customer ON fact_sales(CustomerID);
+   CREATE INDEX idx_sales_date ON fact_sales(SalesDate);
+   ```
+
+2. **Use CTEs**: Common Table Expressions for readability
+
+   ```sql
+   WITH CustomerMetrics AS (
+       SELECT CustomerID, COUNT(*) as PurchaseCount
+       FROM fact_sales
+       GROUP BY CustomerID
+   )
+   SELECT * FROM CustomerMetrics WHERE PurchaseCount > 5;
+   ```
+
+3. **Window Functions**: Efficient ranking and cumulative calculations
+   ```sql
+   SELECT *, ROW_NUMBER() OVER (PARTITION BY CategoryID ORDER BY Sales DESC) as Rank
+   FROM dim_products;
+   ```
+
+### Database Maintenance
+
+- Regular backups of `DataWarehouseAnalytics.bak`
+- Monitor query execution plans
+- Archive old data periodically
+- Update statistics for accurate query optimization
+
+---
+
+## ❓ Troubleshooting & FAQ
+
+### Common Issues
+
+**Q: "Cannot find database" error when running scripts**
+
+- A: Ensure SQL Server is running and the database has been created via `00_init_database.sql`
+
+**Q: CSV import fails with encoding issues**
+
+- A: Ensure CSV files are UTF-8 encoded. Use SSMS Import/Export wizard with appropriate code page settings
+
+**Q: Queries run slowly**
+
+- A: Check if indexes exist. Execute `scripts/00_init_database.sql` to ensure indexes are created
+
+**Q: Data doesn't match expectations**
+
+- A: Verify data is loaded in correct order: bronze → silver → gold. Check data in each layer
+
+**Q: Permission denied when creating tables**
+
+- A: Ensure you have appropriate SQL Server permissions (db_owner role)
+
+### Performance Troubleshooting
+
+- Use `EXPLAIN PLAN` or SQL Server Query Analyzer to review execution plans
+- Avoid SELECT \* when possible; specify required columns
+- Use NOLOCK hints for read-only queries to reduce locks
+
+---
+
+## 👨‍💼 Author & Contact
+
+**Author**: Deepak Kumar Behera
+
+- **GitHub**: [Deepak-Kumar-784](https://github.com/Deepak-Kumar-784)
+- **Email**: Contact via GitHub profile
+- **Portfolio**: Check GitHub profile for more projects
+
+Feel free to reach out for questions, feedback, or collaboration opportunities!
+
+---
+
+## 📝 Version History
+
+| Version | Date     | Changes                                                |
+| ------- | -------- | ------------------------------------------------------ |
+| 1.0     | Dec 2025 | Initial project setup with comprehensive documentation |
+
+---
+
+## 🙏 Acknowledgments
+
+- SQL Server documentation and best practices
+- Data analytics community resources
+- Open-source tools and libraries
+
+---
+
+## 📞 Support & Questions
+
+If you encounter any issues or have questions:
+
+1. Check the **Troubleshooting & FAQ** section above
+2. Review the documentation in `docs/` folder
+3. Examine existing SQL scripts for patterns and examples
+4. Open an issue on GitHub with detailed information
+
+---
+
+**Happy analyzing! 📊✨**
