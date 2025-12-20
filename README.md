@@ -68,7 +68,7 @@ Perform SQL-based analytics to extract meaningful insights from datasets, focusi
 ## 📂 Repository Structure
 
 ```
-Data-analytics-project/
+Data-Analytics-project/
 │
 ├── datasets/                           # Project datasets (bronze = raw, silver = cleaned, gold = curated)
 │   ├── DataWarehouseAnalytics.bak      # Backup of warehouse project
@@ -78,7 +78,6 @@ Data-analytics-project/
 │       └── gold.*.csv                  # Final curated dimensional & fact tables
 │
 ├── docs/                               # Project documentation
-│   ├── Project Roadmap.pdf             # Roadmap document
 │   └── Project Roadmap.png             # Roadmap diagram
 │
 ├── scripts/                            # SQL scripts for ETL and analytics
@@ -104,8 +103,7 @@ Data-analytics-project/
 ├── .gitignore                          # Files and directories to be ignored by Git
 ├── LICENSE                             # License information for the repository
 ├── README.md                           # Project overview and instructions
-├── Advanced Data Analytics.docx        # Detailed analysis documentation and insights
-└── DataWarehouseAnalytics.docx         # Data warehouse architecture and schema documentation
+└── (Word/PDF docs are not tracked; see .gitignore)
 ```
 
 ---
@@ -154,6 +152,7 @@ The `.gitignore` file is configured to exclude the following file types from ver
    - Open SQL Server Management Studio (SSMS)
    - Connect to your SQL Server instance
    - Execute the script: `scripts/00_init_database.sql`
+   - Caution: This script drops and recreates the `DataWarehouseAnalytics` database. Ensure you have backups before running.
 
 3. **Load data**:
 
@@ -303,6 +302,8 @@ GROUP BY DATETRUNC(MONTH, SalesDate)
 ORDER BY Month;
 ```
 
+Note: `DATETRUNC` requires SQL Server 2022 or later. For older versions, use `DATEFROMPARTS(YEAR(SalesDate), MONTH(SalesDate), 1)`.
+
 ### Example 3: Product Performance by Category
 
 ```sql
@@ -386,7 +387,7 @@ ORDER BY Category, Revenue DESC;
 
 **Q: Queries run slowly**
 
-- A: Check if indexes exist. Execute `scripts/00_init_database.sql` to ensure indexes are created
+- A: Check if indexes exist. Execute `scripts/00_init_database.sql` (includes index creation) or create recommended indexes manually (see Performance Tips)
 
 **Q: Data doesn't match expectations**
 
@@ -398,7 +399,8 @@ ORDER BY Category, Revenue DESC;
 
 ### Performance Troubleshooting
 
-- Use `EXPLAIN PLAN` or SQL Server Query Analyzer to review execution plans
+- In SSMS, use Estimated/Actual Execution Plans to review query performance
+- Use `SET STATISTICS IO, TIME ON` to measure I/O and timing
 - Avoid SELECT \* when possible; specify required columns
 - Use NOLOCK hints for read-only queries to reduce locks
 
